@@ -1,4 +1,6 @@
 from operation_tools.especificas import *
+from input_tools.inputs import get_int
+import random
 
 def contar_positivos(lista_numeros):
     cantidad_positivos = 0
@@ -174,3 +176,134 @@ def recomendar_productos(listas_de_compras):
     print("Los productos que solo algunos llevan son:")
     listar_elementos(elementos_exclusivos)
     
+"""
+Hacer una funcion que reciba como parametros un vector y un dato a buscar (int), 
+y la misma retorne el indice del elemento encontrado.
+En caso de no encontrarse, retornar el valor -1
+"""    
+def retornar_indice_elemento(lista: list, dato_a_buscar: int) -> int :
+    indice_elemento = -1 # Inicializado en el caso de no haberlo encontrado
+    
+    for i in range(len(lista)):
+        if lista[i] == dato_a_buscar:
+            indice_elemento = i # Cambiar a indice del elemento si se ecneutnra
+            break # cortar ejecucion debido a que se encontro
+    
+    return indice_elemento
+
+"""
+Hacer una funcion que carge de manera secuencial diez elementos numericos
+Hacer una funcion que cargue de manera aleatoria 10 elementos
+int
+"""
+def cargar_secuencialmente(cant_elementos = 10):
+    lista = [None] * cant_elementos
+    
+    for i in range(len(lista)):
+        elemento_a_cargar = input("Ingrese algo: ")
+        lista[i] = elemento_a_cargar
+    
+    return lista
+
+def cargar_aleatoriamente(cant_elementos):
+    lista = [None] * cant_elementos
+    
+    for _ in range(len(lista)):
+        elemento_a_cargar = input("Ingrese algo: ")
+        cargar_elemento_indice_aleatorio(elemento_a_cargar, lista)
+        # print(lista)
+        
+    return lista
+        
+def cargar_elemento_indice_aleatorio(elemento, lista):
+    indice = random.randint(0, len(lista) - 1)
+    
+    if lista[indice] == None:
+        lista[indice] = elemento
+    else:
+        cargar_elemento_indice_aleatorio(elemento, lista)
+        
+def generar_array_ceros(longitud):
+    array_ceros = [0] * longitud
+    
+    return array_ceros
+
+def cargar_datos(estado, datos, mensaje):
+    
+    for i in range(len(datos)):
+        if estado[i] == 0:
+            estado[i] = 1
+            datos[i] = input(mensaje)
+            break
+        else:
+            continue
+        
+def cargar_datos_int(estado, datos, mensaje):
+    
+    for i in range(len(datos)):
+        if estado[i] == 0:
+            estado[i] = 1
+            datos[i] = get_int(mensaje, "Dato incorrecto, ingrese nuevamente", 0, 10, 99)
+            break
+        else:
+            continue
+        
+"""
+Hacer una app utilizando la biblioteca propia de vectores, 
+que realice una carga al estilo agenda de contactos del celular. 
+Para esto, desarrollar una funcion que reciba dos vectores, 
+estados y datos, y que realice la carga en datos, si hay espacio libre.
+"""
+
+def cargar_arrays_mixto(longitud, mensaje):
+    lista_estado = generar_array_ceros(longitud)
+    lista_datos = generar_array_ceros(longitud)
+    contador = 0
+    respuesta_continuar = "S"
+    continuar = True
+    
+
+    while continuar:
+        if contador > 0 and contador < len(lista_datos):
+            respuesta_continuar = input("Desea continuar? [S/N]: ")
+            
+        if respuesta_continuar == "S" and contador <= len(lista_datos):
+            cargar_datos_int(lista_estado, lista_datos, mensaje)
+            contador += 1
+        elif respuesta_continuar == "N" or contador >= len(lista_datos):
+            break
+    
+    return lista_datos
+
+def cargar_notas(estudiantes, cantidad_notas, mensaje):
+    notas = [0] * len(estudiantes)
+    
+    for i in range(len(estudiantes)):
+        print(f"Estudiante: {estudiantes[i]}")
+        notas_estudiante = cargar_arrays_mixto(cantidad_notas, mensaje)
+        notas[i] = notas_estudiante
+        
+    return notas
+
+def calcular_promedios(notas):
+    promedios = [0] * len(notas)
+    
+    for i in range(len(notas)):
+        notas_estudiante = notas[i]
+        suma_notas_estudiante = 0
+        for j in range(len(notas_estudiante)):
+            suma_notas_estudiante += notas_estudiante[j]
+            
+        promedio_estudiante = suma_notas_estudiante / len(notas_estudiante)
+        promedios[i] = promedio_estudiante
+    
+    return promedios
+
+def mostrar_datos_academicos_estudiantes(estudiantes, notas, promedios):
+    print("Datos academicos de los estudiantes\n")
+    
+    for i in range(len(estudiantes)):
+        print(f"{estudiantes[i]}, promedio {promedios[i]}")
+        print("Notas: ")
+        listar_elementos(notas[i])
+        print()

@@ -98,6 +98,4 @@ def get_list_of_inputs(mensaje, mensaje_repeticion, mensaje_repeticion_individua
         while continuar_ingreso != "s" and continuar_ingreso != "S" and continuar_ingreso != "n" and continuar_ingreso != "N":
             continuar_ingreso = input(mensaje_repeticion) #Desea realizar otro ingreso? [S/N]: 
     
-    return lista_inputs
-    
-    
+    return lista_inputs 
