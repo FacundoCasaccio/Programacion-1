@@ -46,3 +46,14 @@ def validate_length(input, expected_length):
     else:
         return True
 
+def verificar_no_pertenece_array(elemento, array):
+    pertenece = False
+    
+    if len(array) != 0:
+        for i in range(len(array)):
+            elemento_array = array[i]
+            
+            if elemento == elemento_array:
+                pertenece = True
+            
+    return pertenece

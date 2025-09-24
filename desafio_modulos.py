@@ -30,7 +30,7 @@ elif opcion_elegida == 2:
     print(input_usuario)
 
 elif opcion_elegida == 3:
-    input_usuario = inputs.get_string(
+    input_usuario = inputs.get_string_with_length(
                 mensage = "A continuacion, se validara un numero flotante",
                 mensaje_error = "Ingreso incorrecto",
                 reintentos = 2,

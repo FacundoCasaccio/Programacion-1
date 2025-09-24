@@ -153,7 +153,7 @@ def obtener_elemento_mas_apariciones(lista_elementos):
         if lista_elementos.count(elemento) > repeticiones_maximas:
             elemento_mas_repetido = elemento
         elif lista_elementos.count(elemento) == repeticiones_maximas:
-            elemento_mas_repetido = list(elemento_mas_repetido).append(elemento)
+            elemento_mas_repetido = list(elemento_mas_repetido).append(elemento) # type: ignore
             
     return elemento_mas_repetido
            
@@ -196,12 +196,12 @@ Hacer una funcion que carge de manera secuencial diez elementos numericos
 Hacer una funcion que cargue de manera aleatoria 10 elementos
 int
 """
-def cargar_secuencialmente(cant_elementos = 10):
+def cargar_secuencialmente(cant_elementos = 10, mensaje = "Ingrese algo: "):
     lista = [None] * cant_elementos
     
     for i in range(len(lista)):
-        elemento_a_cargar = input("Ingrese algo: ")
-        lista[i] = elemento_a_cargar
+        elemento_a_cargar = input(mensaje)
+        lista[i] = elemento_a_cargar # type: ignore
     
     return lista
 
@@ -222,11 +222,15 @@ def cargar_elemento_indice_aleatorio(elemento, lista):
         lista[indice] = elemento
     else:
         cargar_elemento_indice_aleatorio(elemento, lista)
-        
-def generar_array_ceros(longitud):
-    array_ceros = [0] * longitud
+   
+def generar_array_de_elemento(longitud, elemento):
+    array_elemento = [elemento] * longitud
     
-    return array_ceros
+    return array_elemento   
+     
+def generar_array_ceros(longitud):
+    array = generar_array_de_elemento(longitud, 0)
+    return array
 
 def cargar_datos(estado, datos, mensaje):
     
@@ -295,7 +299,7 @@ def calcular_promedios(notas):
             suma_notas_estudiante += notas_estudiante[j]
             
         promedio_estudiante = suma_notas_estudiante / len(notas_estudiante)
-        promedios[i] = promedio_estudiante
+        promedios[i] = promedio_estudiante # type: ignore
     
     return promedios
 
@@ -307,3 +311,101 @@ def mostrar_datos_academicos_estudiantes(estudiantes, notas, promedios):
         print("Notas: ")
         listar_elementos(notas[i])
         print()
+        
+def imprimir_matriz(matriz):
+    for i in range(len(matriz)):
+        fila = ""
+        for j in range(len(matriz[i])):
+            fila += str(matriz[i][j]) + " "
+            
+        print(fila)
+
+def generar_matriz_int_aleatoria(filas, columnas, minimo = -9999, maximo = 9999):
+    inputs_matrix = [0] * filas
+    
+    for i in range(filas):
+        fila = [0] * columnas
+        for j in range(columnas):
+            fila[j] = random.randint(minimo, maximo)
+            
+        inputs_matrix[i] = fila
+        
+    return inputs_matrix
+
+def calculcar_constante_magica(matriz):
+    dimension_matriz = len(matriz)
+    constante_magica = (dimension_matriz * ((dimension_matriz ** 2) + 1)) / 2
+    
+    return constante_magica
+
+def calcular_suma_filas(matriz):
+    sumas_filas = [0] * len(matriz)
+    
+    for i in range(len(matriz)):
+        suma_fila = 0
+        for j in range(len(matriz[i])):
+            suma_fila += matriz[i][j]
+            
+        sumas_filas[i] = suma_fila
+            
+    return sumas_filas
+
+def calcular_suma_columnas(matriz):
+    sumas_columnas = [0] * len(matriz)
+    
+    for i in range(len(matriz)):
+        suma_columna = 0
+        for j in range(len(matriz[i])):
+            suma_columna += matriz[j][i]
+            
+        sumas_columnas[i] = suma_columna
+            
+    return sumas_columnas
+
+def calcular_suma_diagonal(matriz):
+    suma_diagonal = 0
+    
+    for i in range(len(matriz)):
+        for j in range(len(matriz[i])):
+            if i == j:
+                suma_diagonal += matriz[i][j]
+            
+    return suma_diagonal
+
+def verificar_cuadrado_magico(matriz):
+    constante_magica = calculcar_constante_magica(matriz)
+    sumas_filas = calcular_suma_filas(matriz)
+    sumas_columnas = calcular_suma_columnas(matriz)
+    suma_diagonal_principal = calcular_suma_diagonal(matriz)
+    
+    cuadrado_magico = True
+    
+    if constante_magica != suma_diagonal_principal:
+        cuadrado_magico = False
+        
+    else:
+        # Todo en un mismo for porque siempre es matriz cuadrada
+        for i in range(len(sumas_filas)):
+            suma_fila = sumas_filas[i]
+            suma_columna = sumas_columnas[i]
+            
+            print(suma_fila)
+            
+            if suma_fila != constante_magica:
+                cuadrado_magico = False
+                break
+            
+            if suma_columna != constante_magica:
+                cuadrado_magico = False
+                break
+            
+    return cuadrado_magico
+
+            
+def generar_matriz_ceros(filas, columnas):
+    matriz = [0] * filas
+    
+    for i in range(filas):
+        matriz[i] = [0] * columnas
+        
+    return matriz
