@@ -88,7 +88,7 @@ def retornar_indice_maximo(lista_enteros):
     
 lista = [4, 8, 5, -1]
 print(retornar_indice_maximo(lista))
-print(lista[retornar_indice_maximo(lista)])
+print(lista[retornar_indice_maximo(lista)]) # type: ignore
 
 # Ejercicio 7
 # Escribir una función que reciba como parámetros una lista de enteros y 

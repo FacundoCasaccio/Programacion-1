@@ -33,7 +33,7 @@ def get_float(mensage: str, mensaje_error: str, minimo: int, maximo: int, reinte
     else:
         return float(input_usuario)
     
-def get_string_with_length(mensage: str, mensaje_error: str, reintentos: int, longitud = int):
+def get_string_with_length(mensage: str, mensaje_error: str, reintentos: int, longitud):
     print(mensage)
     input_usuario = input(f"Ingrese un una cadena de caracteres de longitud {longitud}:\n ")
     bandera_dato_valido = validate_length(input_usuario, longitud)

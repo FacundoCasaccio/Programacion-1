@@ -200,7 +200,7 @@ def input_entero():
 
         if tipo_input_usuario != int:
             print("Tipo incorrecto, vuelva a intentarlo.")
-    return int(input_usuario)
+    return int(input_usuario) # type: ignore
 
 # Por si se quiere usar especificamente para float
 def input_float():
@@ -213,7 +213,7 @@ def input_float():
 
         if tipo_input_usuario != float:
             print("Tipo incorrecto, vuelva a intentarlo.")
-    return float(input_usuario)
+    return float(input_usuario) # type: ignore
 
 # Input de usuario generico
 def casted_input():

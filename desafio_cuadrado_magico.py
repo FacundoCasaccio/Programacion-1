@@ -28,7 +28,7 @@ if seleccion_usuario != 3:
                                 maximo = 100,
                                 reintentos = 99)
         
-        matriz = get_unique_int_matrix(dimension_matriz, dimension_matriz, minimo = 1, maximo = (dimension_matriz ** 2))
+        matriz = get_unique_int_matrix(dimension_matriz, dimension_matriz, minimo = 1, maximo = (dimension_matriz ** 2)) # type: ignore
     
     elif seleccion_usuario == 2:
         dimension_matriz = random.randint(1, 10)

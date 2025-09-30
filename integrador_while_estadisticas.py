@@ -35,14 +35,14 @@ print("\n##################\n") # Para separar input de output
 if contador_negativos > 0:
     print(f"Cantidad de numeros negativos ingresados: {contador_negativos}")
     print(f"Suma acumulada de los numeros negativos: {acumulador_suma_negativos}")
-    print(f"Se ingreso un {porcentaje_de_negativos}% de numeros negativos")
+    print(f"Se ingreso un {porcentaje_de_negativos}% de numeros negativos") # type: ignore
 else:
     print("No se ingresaron numeros negativos")
 
 if contador_positivos > 0:
     print(f"Suma acumulada de los numeros positivos: {acumulador_suma_positivos}")
     print(f"Maximo numero positivo ingresado: {maximo_positivo}")
-    print(f"Promedio de numeros positivos ingresados: {promedio_de_positivos}")
+    print(f"Promedio de numeros positivos ingresados: {promedio_de_positivos}") # type: ignore
 else:
     print("No se ingresaron numeros positivos")
 

@@ -1,7 +1,7 @@
 from menu_tools.menu_utils import print_menu
 from operation_tools.arrays_generales import *
 from input_tools.inputs import *
-from ejercicio_arrays_bi_clase.funciones_ejercicio import *
+from especificos_ejercicios.funciones_ejercicio import *
 
 """
 matriz de 100 por 3 elementos de números enteros, que van a representar las notas del curso de ingreso

@@ -11,7 +11,7 @@ input_usuario = None
 
 if opcion_elegida == 1:
     input_usuario = inputs.get_int(
-                mensage = "A continuacion, se validara un numero entero",
+                mensaje = "A continuacion, se validara un numero entero",
                 mensaje_error = "Ingreso incorrecto",
                 minimo = 5,
                 maximo = 10,
