@@ -1,6 +1,4 @@
 from menu_tools.menu_utils import print_menu
-from operation_tools.arrays_generales import *
-from input_tools.inputs import *
 from especificos_ejercicios.funciones_colectivos import *
 
 opciones_menu = [
