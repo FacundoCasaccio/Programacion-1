@@ -1,145 +1,216 @@
-"""
-Desarrollar algoritmicamente en Python:
-Una institución educativa desea procesar los datos de sus estudiantes.
-Para ello, se tienen los siguientes datos:
-• Una matriz de números enteros de 30 filas por 5 columnas que corresponde a las calificaciones, donde:
-• Cada fila representa un estudiante.
-• Cada columna representa una materia.
-• Cada valor en la intersección es una calificación entera entre 1 y 10.
-• Una lista de apellido y nombre de los estudiantes.
-• Una lista de géneros de los estudiantes. Cada género debe ser alguno de los siguientes: ['F' | 'M' | 'X*]
-: Una lista de legados de los estudioses Ca tho ono core octico de ipe enta de seis cifras.
-Cada una de estas listas, se corresponden con las filas de la matriz. Es decir, que se debe trabajar como listas
-paralelas entre la matriz y las otras listas.
-Se deberá programar un menú de opciones operado por consola, que realice lo siguiente:
-1 - Realizar la carga de los datos en la matriz y en cada una de las listas. (Se pueden hardcodear los datos).
-Realizar una función para validar cada dato a ser cargado.
-2 - Mostrar todos los datos, esto es la matriz completa de calificaciones conjuntamente con las listas de legajo, género y nombre del estudiante, siempre y cuando su estado tenga el valor uno. Realizar una función que recorra
-todos y otra que muestre uno.
-3 - Calcular el promedio de cada estudiante y guardarlo en una nueva lista de promedios. Realizar una función
-cue calcule el promedio.
-4 - Ordenar y mostrar los datos de los estudiantes por promedio de manera DESC. Realizar una función que ordene, la cual deberá ordenar de manera ASC o DESC de acuerdo a un parámetro de ordenamiento.
-5 - Mostrar la/s materia/s con mayor promedio general. Realizar una función para recorrer todas y otra para mostrar una. Teniendo en cuenta que no hay una lista de materias, sino que cada columna de la matriz representa una materia, entonces cada materia tomará la siguiente nomenclatura para su nombre MATERIA_ indice más uno. Por ejemplo: para la materia del indice cero de la columna, será MATERIA_1.
-6 - Buscar y mostrar todos los datos de un estudiante por legajo, incluyendo el promedio calculado en el ítem 3.
-Realizar una función de búsqueda. Realizar una función que recorra uno y otra que muestre todos.
-7- Buscar y mostrar cuantas veces se repite cada calificación en una asignatura determinada.
-Realizar una función que reciba la matriz de calificaciones y el número de materia (indice más uno) como parámetros, y retorne una lista de 10 elementos, donde en el indice 0 estará la cantidad de veces que se repite la nota 1, en el indice 1 estará la cantidad de veces que se repite la nota 2, y así sucesivamente hasta el indice 9 donde estará la cantidad de veces que se repite la nota 10.
-8 - Salir del programa.
+import pygame
+from prog_1_sp.config.sudoku_config import * 
+from prog_1_sp.src.game_utils import *
+from prog_1_sp.src.funciones_puntajes import *
+from prog_1_sp.ui.ui_utils import *
 
+pygame.display.set_caption("Sudoku UTN - Facundo Casaccio") 
 
-NOTAS:
-Nota 0: Los datos de la matriz y las listas podrán estar hardcodeados a los efectos de realizar las pruebas de
-funcionamiento correspondientes.
-Nota 1: No se podrá acceder a ningún ítem del menú, sin antes haber cargado los datos. En tal sentido, realizar
-la validación correspondiente.
-Nota 2: Los puntos deben ser accedidos mediante un menú de opciones.
-Nota 3: Cada ítem del menú deberá ser una función.
-Nota 4: Se deberá desarrollar biblioteca y funciones propias, las mismas deberán estar correctamente documentadas.
-Nota 5: Se deberá desarrollar una función para la validación de cada uno de los datos.
-Nota 6: Desarrollar una función que recorra los elementos (mostrar todos) y otra que muestre un elemento
-(mostrar uno). La segunda será llamada dentro de la primera.
-Nota 7: Para realizar el menú de opciones, se deberá utilizar la estructura de control match.
-Nota 8: El menú de opciones deberá estar contenido dentro (anidado) de una estructura de control while
-"""
-from prog_1_pp.utilidades_listas import *
-from prog_1_pp.utilidades_input import *
-from prog_1_pp.implementacion_menu import *
-from prog_1_pp.estudiantes_hardcodeados import pre_cargar_estudiantes
-
-CANTIDAD_ESTUDIANTES = 30
-CANTIDAD_MATERIAS = 5
-
-opciones_menu = [
-    "1 - Cargar datos de estudiantes",
-    "2 - Mostrar datos de estudiantes",
-    "3 - Calcular promedios de estudiantes",
-    "4 - Mostrar promedios en orden descendente",
-    "5 - Mostrar materias con mayor promedio",
-    "6 - Mostrar datos de estudiante por legajo",
-    "7 - Mostrar cantidad de notas repetidas en asignatura",
-    "8 - Salir\n\n",
-]
+def draw(game_state: dict) -> None:
         
-def ejecutar_programa(debug = False):
+    if game_state["menu"]:
+        dibujar_menu(game_state)
     
-    if debug:
-        calificaciones_estudiantes, nombres_estudiantes, generos_estudiantes, legajos_estudiantes, estados_estudiantes = pre_cargar_estudiantes()
-        estudiantes_cargados = True
     else:
-        calificaciones_estudiantes = generar_matriz_de_elemento(filas = CANTIDAD_ESTUDIANTES, columnas = CANTIDAD_MATERIAS, elemento = 0)
-        nombres_estudiantes = generar_array_de_elemento(longitud = CANTIDAD_ESTUDIANTES, elemento = None)
-        generos_estudiantes = generar_array_de_elemento(longitud = CANTIDAD_ESTUDIANTES, elemento = None)
-        legajos_estudiantes = generar_array_de_elemento(longitud = CANTIDAD_ESTUDIANTES, elemento = None)
-        estados_estudiantes = generar_array_de_elemento(longitud = CANTIDAD_ESTUDIANTES, elemento = 0)
-        estudiantes_cargados = False
+        dibujar_partida(game_state)
+             
+    pygame.display.update()
+
+def main() -> None:
+    game_state = inicializar_estado_juego() # Inicializar estado de juego
+    run = True
+    pygame.mixer.music.play(-1) # Emepezar con musica 
+    
+    # Bucle principal
+    while run:
         
-    promedios_estudiantes = generar_array_de_elemento(longitud = CANTIDAD_ESTUDIANTES, elemento = None)
-    seleccion_usuario = 0
-    promedios_calculados = False
-    
-    while seleccion_usuario != 8:
-        imprimir_menu(opciones_menu)
-        seleccion_usuario = obtener_entero(mensaje = f"Ingrese una opcion: ",
-                                mensaje_error = "Ingreso incorrecto, intente nuevamente: ",
-                                minimo = 1,
-                                maximo = 8,
-                                reintentos = 100)
-    
-        match seleccion_usuario:
-            case 1:
-                pedir_y_cargar_datos_estudiante(calificaciones_estudiantes, 
-                                                nombres_estudiantes,
-                                                generos_estudiantes,
-                                                legajos_estudiantes,
-                                                estados_estudiantes
-                                                )
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+                pygame.quit()
+            
+            # Eventos de menu
+            if game_state["menu"]:
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    
+                    # Eventos menu principal
+                    if game_state["menu_dificultad"] == False and game_state["mostrar_puntajes"] == False:
+                        
+                        # Click en Jugar
+                        if RECT_BOTON_1.collidepoint(event.pos):
+                            game_state["tablero_estado_inicial"], game_state["tablero_partida"] = inicializar_partida(game_state["dificultad"])
+                            game_state["menu"] = False
+                            SELECCIONAR.play()
+                                          
+                        # Click en Dificultad
+                        if RECT_BOTON_2.collidepoint(event.pos):
+                            game_state["menu_dificultad"] = True
+                            SELECCIONAR.play()
+                            
+                        # Click en Top Puntajes
+                        if RECT_BOTON_3.collidepoint(event.pos):
+                            SELECCIONAR.play()
+                            
+                            # Mostrar puntajes
+                            if game_state["mostrar_puntajes"] == False:
+                                game_state["mostrar_puntajes"] = True
+                            else:
+                                # Volver al menu principal
+                                game_state["mostrar_puntajes"] = False
+                            
+                        # Click en Salir
+                        if RECT_BOTON_4.collidepoint(event.pos):
+                            pygame.quit()
+                            
+                        # Click en musica para parar o reproducir
+                        if RECT_MUSICA.collidepoint(event.pos):
+                            if game_state["musica"]:
+                                game_state["musica"] = False
+                            else:
+                                game_state["musica"] = True
+                                
+                            reproducir_musica(game_state)
+                    
+                    # Evento menu puntaje
+                    elif game_state["mostrar_puntajes"] == True:
+                        # Volver al menu principal
+                        if RECT_BOTON_4.collidepoint(event.pos):
+                            game_state["mostrar_puntajes"] = False
+                            SELECCIONAR.play()
+                    
+                    # Eventos menu de seleccion de dificultad
+                    else:
+                        # Seleccionar Facil
+                        if RECT_BOTON_1.collidepoint(event.pos):
+                            game_state["dificultad"] = FACIL
+                            SELECCIONAR.play()
+                           
+                        # Seleccionar Medio 
+                        if RECT_BOTON_2.collidepoint(event.pos):
+                            game_state["dificultad"] = MEDIO
+                            SELECCIONAR.play()
+                          
+                        # Seleccionar Dificil 
+                        if RECT_BOTON_3.collidepoint(event.pos):
+                            game_state["dificultad"] = DIFICIL
+                            SELECCIONAR.play()
+                            
+                        # Volver al menu principal
+                        if RECT_BOTON_4.collidepoint(event.pos):
+                            game_state["menu_dificultad"] = False
+                            SELECCIONAR.play()
+                        
+            # Eventos de partida    
+            else:
                 
-                estudiantes_cargados = True
-                promedios_calculados = False
-            case 2 if estudiantes_cargados:
-                mostrar_datos_estudiantes(calificaciones_estudiantes, 
-                                            nombres_estudiantes,
-                                            generos_estudiantes,
-                                            legajos_estudiantes,
-                                            estados_estudiantes,
-                                            promedios_estudiantes
-                                            )
-
-            case 3 if estudiantes_cargados:
-                promedios_estudiantes = calcular_promedios_estudiantes(calificaciones_estudiantes, estados_estudiantes)
-                promedios_calculados = True
+                # Eventos de mouse
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    
+                    # Click en boton Validar
+                    if RECT_BOTON_VALIDAR.collidepoint(event.pos):
+                        validar(game_state)
+                        
+                    # Click en boton Resetear
+                    if RECT_BOTON_RESETEAR.collidepoint(event.pos):
+                        resetear(game_state)
+                        
+                    # Click en boton volver
+                    if RECT_BOTON_VOLVER.collidepoint(event.pos):
+                        # resetear(game_state)
+                        game_state["menu"] = True
+                        SELECCIONAR.play()
+                        
+                    # Click en una celda (seleccionarla)
+                    if game_state["celda_resaltada"] and (game_state["fila_seleccion"] < 0 and game_state["fila_seleccion"] > 8) and (game_state["columna_seleccion"] < 0 and game_state["columna_seleccion"] > 8):
+                        game_state["celda_resaltada"] = False
+                        
+                    else:
+                        coordenadas_seleccion = event.pos
+                        
+                        game_state["posicion_tablero_seleccion"] = obtener_posicion_por_coordenadas(coordenadas_seleccion)
+                        game_state["fila_seleccion"], game_state["columna_seleccion"] = game_state["posicion_tablero_seleccion"]
+                        game_state["celda_resaltada"] = True                       
+                 
+                # Eventos de teclado       
+                if event.type == pygame.KEYDOWN:
+                    
+                    # Ingreso de nombre/nick
+                    if game_state["completado"]:
+                        
+                        # Borrar input
+                        if event.key == pygame.K_BACKSPACE or event.key == pygame.K_DELETE:
+                            game_state["nombre"] = game_state["nombre"][:-1]
+                            
+                        # Guardado de input de usuario
+                        elif event.key == pygame.K_RETURN and len(game_state["nombre"]) > 0:
+                            datos_partida = {"nombre" : game_state["nombre"],
+                                       "puntaje" : game_state["puntaje"]
+                                       }
+                            
+                            escribir_json(datos_partida, "puntajes.json")
+                            resetear(game_state)
+                            game_state["menu"] = True
+                            game_state["nombre"] = ""
+                        
+                        # Agregar input a la cadena
+                        else:    
+                            game_state["nombre"] += event.unicode
+                    
+                    # Atajos y ingreso de numeros 
+                    else:
+                        
+                        # Atajo de teclado para validar
+                        if event.key == pygame.K_RETURN:
+                            validar(game_state)
+                        
+                        # Atajo de teclado para resetear1
+                        elif event.key == pygame.K_r:
+                            resetear(game_state)
+                        
+                        # Ingreso de numeros para celda seleccionada
+                        elif game_state["celda_resaltada"] and (game_state["fila_seleccion"] >= 0 and game_state["fila_seleccion"] < 9) and (game_state["columna_seleccion"] >= 0 and game_state["columna_seleccion"] < 9):
+                            
+                            if game_state["tablero_estado_inicial"][game_state["fila_seleccion"]][game_state["columna_seleccion"]] == 0:
+                                if event.key == pygame.K_1:
+                                    game_state["tablero_partida"][game_state["fila_seleccion"]][game_state["columna_seleccion"]] = 1
+                                    
+                                if event.key == pygame.K_2:
+                                    game_state["tablero_partida"][game_state["fila_seleccion"]][game_state["columna_seleccion"]] = 2
+                                    
+                                if event.key == pygame.K_3:
+                                    game_state["tablero_partida"][game_state["fila_seleccion"]][game_state["columna_seleccion"]] = 3
+                                    
+                                if event.key == pygame.K_4:
+                                    game_state["tablero_partida"][game_state["fila_seleccion"]][game_state["columna_seleccion"]] = 4
+                                    
+                                if event.key == pygame.K_5:
+                                    game_state["tablero_partida"][game_state["fila_seleccion"]][game_state["columna_seleccion"]] = 5
+                                    
+                                if event.key == pygame.K_6:
+                                    game_state["tablero_partida"][game_state["fila_seleccion"]][game_state["columna_seleccion"]] = 6
+                                    
+                                if event.key == pygame.K_7:
+                                    game_state["tablero_partida"][game_state["fila_seleccion"]][game_state["columna_seleccion"]] = 7
+                                    
+                                if event.key == pygame.K_8:
+                                    game_state["tablero_partida"][game_state["fila_seleccion"]][game_state["columna_seleccion"]] = 8
+                                    
+                                if event.key == pygame.K_9:
+                                    game_state["tablero_partida"][game_state["fila_seleccion"]][game_state["columna_seleccion"]] = 9
+                                    
+                                # Borrar estado de celda
+                                if event.key == pygame.K_BACKSPACE or event.key == pygame.K_DELETE:
+                                    game_state["tablero_partida"][game_state["fila_seleccion"]][game_state["columna_seleccion"]] = 0
+                                    
+                                    if (game_state["fila_seleccion"], game_state["columna_seleccion"]) in game_state["posiciones_invalidas"]:
+                                        game_state["posiciones_invalidas"].remove((game_state["fila_seleccion"], game_state["columna_seleccion"]))
+                                        
+                        verificar_estado_partida(game_state)
+                        
+        # Dibujado en pantalla de estado de juego (menus, partida)
+        draw(game_state)
                 
-            case 4 if estudiantes_cargados and promedios_calculados:
-                mostrar_datos_por_promedio(calificaciones_estudiantes, 
-                                                nombres_estudiantes,
-                                                generos_estudiantes,
-                                                legajos_estudiantes,
-                                                estados_estudiantes,
-                                                promedios_estudiantes,
-                                                ascendente = False
-                                                )
                 
-            case 5 if estudiantes_cargados:
-                mostrar_materias_mas_promedio(calificaciones_estudiantes, estados_estudiantes)
-                
-            case 6 if estudiantes_cargados:
-                mostrar_datos_por_legajo(calificaciones_estudiantes, 
-                                        nombres_estudiantes,
-                                        generos_estudiantes,
-                                        legajos_estudiantes,
-                                        estados_estudiantes,
-                                        promedios_estudiantes
-                                        )
-                
-            case 7 if estudiantes_cargados: 
-                mostrar_notas_repetidas_materias(calificaciones_estudiantes, estados_estudiantes)
-                
-            case 8:
-                print("Finalizando programa, hasta luego!")
-                
-            case _:
-                mostrar_mensajes_error(seleccion_usuario, estudiantes_cargados, promedios_calculados)
-                
-        print() # para separar de la posterior impresion del menu
-
-ejecutar_programa(debug = False)
+# Para que se inicialice a correr, si el archivo se llama main                
+if __name__ == "__main__":
+    main()
