@@ -206,7 +206,7 @@ def resetear(game_state: dict) -> None:
     game_state["completado"] = False
     game_state["posiciones_invalidas"] = []
     game_state["puntaje"] = 0
-    game_state["celdas_correctas_validadas"] = []
+    game_state["cuadrantes_correctos_validados"] = []
     
 # Reproduce o detiene la musica segun el estado de juego
 def reproducir_musica(game_state: dict) -> None:
