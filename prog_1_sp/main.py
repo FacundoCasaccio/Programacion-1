@@ -1,8 +1,8 @@
 import pygame
-from prog_1_sp.config.sudoku_config import * 
-from prog_1_sp.src.game_utils import *
-from prog_1_sp.src.funciones_puntajes import *
-from prog_1_sp.ui.ui_utils import *
+from config.sudoku_config import * 
+from src.game_utils import *
+from src.funciones_puntajes import *
+from ui.ui_utils import *
 
 pygame.display.set_caption("Sudoku UTN - Facundo Casaccio") 
 

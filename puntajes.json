@@ -22,5 +22,9 @@
     {
         "nombre": "Lit",
         "puntaje": 162
+    },
+    {
+        "nombre": "Facundo prueba",
+        "puntaje": 162
     }
 ]

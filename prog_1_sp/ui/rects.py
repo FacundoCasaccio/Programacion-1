@@ -1,5 +1,5 @@
 import pygame
-from prog_1_sp.config.sudoku_config import * 
+from config.sudoku_config import * 
 
 # Botones Menu
 W_BOTON_MENU = 300

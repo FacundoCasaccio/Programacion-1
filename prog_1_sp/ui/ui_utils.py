@@ -1,10 +1,10 @@
 import pygame
 from pygame import Rect
-from prog_1_sp.config.sudoku_config import * 
-from prog_1_sp.src.game_utils import *
-from prog_1_sp.src.funciones_puntajes import *
-from prog_1_sp.ui.rects import *
-from prog_1_sp.ui.ui_utils import *
+from config.sudoku_config import * 
+from src.game_utils import *
+from src.funciones_puntajes import *
+from ui.rects import *
+from ui.ui_utils import *
 import os
 
 pygame.font.init()

@@ -1,8 +1,7 @@
-from operation_tools.arrays_generales import *
 import random
-from prog_1_sp.config.sudoku_config import *
-from prog_1_sp.src.validaciones import *
-from prog_1_sp.sound.sounds import *
+from config.sudoku_config import *
+from src.validaciones import *
+from sound.sounds import *
 import pygame
 
 
