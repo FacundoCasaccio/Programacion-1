@@ -40,6 +40,7 @@ def main() -> None:
                         if RECT_BOTON_1.collidepoint(event.pos):
                             game_state["tablero_estado_inicial"], game_state["tablero_partida"] = inicializar_partida(game_state["dificultad"])
                             game_state["puntaje"] = 0
+                            game_state["cuadrantes_correctos_validados"] = []
                             game_state["menu"] = False
                             SELECCIONAR.play()
                                           
